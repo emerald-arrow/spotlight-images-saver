@@ -2,7 +2,7 @@
 
 ## About
 
-It is a script that saves lockscreen images provided by Windows Spotlight. The script asks user for a directory where these images should be saved and copies them there. User might choose to copy images with Desktop aspect ratio, Mobile aspect ratio or both types at once. Images with Desktop aspect ratio have "Desktop_" prefix added to their names and images with Mobile aspect ratio are saved with "Mobile_" prefix. The script omitts copying images in case if images with the same file names are already in destination directory. It does not prevent duplicates in 100% of cases but it decreases amount of them.
+It is a script that saves lockscreen images provided by Windows Spotlight. The script asks user for a directory where these images should be saved and copies them there. User might choose to copy images with Desktop aspect ratio, Mobile aspect ratio or both types at once. Images with Desktop aspect ratio have "Desktop_" prefix added to their names and images with Mobile aspect ratio are saved with "Mobile_" prefix. The script copies images provided by Spotlight and saves them with a timestamp of copying with numbers at the end of the file names. Any duplicates should be removed manually or with the use of different programmes.
 
 ## How to use
 
