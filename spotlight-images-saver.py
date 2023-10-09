@@ -3,6 +3,7 @@ import sys
 import signal
 import shutil
 import imagesize
+from datetime import datetime
 
 # Spotlight lockscreen images directory
 SPOTLIGHT_PATH = os.getenv('LOCALAPPDATA') + '\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets\\'
@@ -38,6 +39,12 @@ def horizontal_or_vertical(image_path):
 		return MOBILE_PREFIX
 	else:
 		return DESKTOP_PREFIX
+
+# Returns a string that contains current timestamp
+def timestamp_string():
+	timestamp = datetime.now()
+
+	return timestamp.strftime("%Y%m%dT%H%M%S")
 
 # Returns save path from user's input
 def read_save_path():
@@ -117,38 +124,57 @@ def search_spotlight_dir():
 # Copies images to selected directory
 def copy_images(save_dir):
 	files = search_spotlight_dir()
+	timestamp = timestamp_string()
 	copy_count = 0
 	duplicate_count = 0
 
 	if SAVE_DESKTOP is True and len(files['desktop']) > 0:
+		desktop_count = 1
+
 		for file in files['desktop']:
-			test_path = os.path.join(save_dir, DESKTOP_PREFIX + file) + IMAGE_EXT
+			test_path = os.path.join(
+				save_dir,
+				DESKTOP_PREFIX
+				+ timestamp
+				+ '_'
+				+ str(desktop_count)
+			) + IMAGE_EXT
 
 			if os.path.isfile(test_path) is False:
 				shutil.copy(
 					os.path.join(SPOTLIGHT_PATH + file),
 					test_path
 				)
+				desktop_count += 1
 				copy_count += 1
 			else:
 				duplicate_count += 1
 
 	if SAVE_MOBILE is True and len(files['mobile']) > 0:
+		mobile_count = 1
+		
 		for file in files['mobile']:
-			test_path = os.path.join(save_dir, MOBILE_PREFIX + file) + IMAGE_EXT
+
+			test_path = os.path.join(
+				save_dir,
+				MOBILE_PREFIX
+				+ timestamp
+				+ '_'
+				+ str(mobile_count)
+			) + IMAGE_EXT
 
 			if os.path.isfile(test_path) is False:
 				shutil.copy(
 					os.path.join(SPOTLIGHT_PATH + file),
 					test_path
 				)
+				mobile_count += 1
 				copy_count += 1
 			else:
 				duplicate_count += 1
 
-	if copy_count > 0:
-		print('-----')
-		print(f'Images copied to target directory: {copy_count}')
+	print('-----')
+	print(f'Images copied to target directory: {copy_count}')
 	
 	if duplicate_count > 0:
 		print('-----')
